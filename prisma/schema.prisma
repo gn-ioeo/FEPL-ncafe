@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Menu {
+  id          Int         @id @default(autoincrement())
+  korName     String      @map("kor_name")
+  engName     String      @map("eng_name")
+  price       Int
+  description String?
+  memberId    String?     @map("member_id")
+  categoryId  Int?        @default(1) @map("category_id")
+  hasIce      Boolean?    @default(false) @map("has_ice")
+  isPublic    Boolean?    @default(true) @map("is_public")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  deletedAt   DateTime?   @map("deleted_at")
+  MenuImage   MenuImage[]
+
+  @@map("menus")
+}
+
+model MenuImage {
+  id     Int    @id @default(autoincrement())
+  src    String
+  menuId Int
+  menu   Menu   @relation(fields: [menuId], references: [id])
+
+  @@map("menu_images")
+}

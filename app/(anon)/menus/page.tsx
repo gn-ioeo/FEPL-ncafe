@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.scss";
 import FilterForm from "./components/FilterForm";
-import { GetMenuListDto } from "@/backend/application/menus/dtos/GetMenuListDto";
+import { GetMenuListDto } from "@/backend/application/menes/dtos/GetMenuListDto";
 
 const {
   ["menus-box"]: menusBox,
@@ -35,7 +35,7 @@ export default async function MenuListPage() {
                 <div className={imgBox}>
                   <Image
                     src={menu.defaultImage || "/image/product/default.png"}
-                    alt={menu.korName}
+                    alt={menu.korName ?? "메뉴 이미지"}
                     width={200}
                     height={200}
                   />
@@ -45,7 +45,7 @@ export default async function MenuListPage() {
                     <Link href={`/menus/${menu.id}`}>{menu.korName}</Link>
                   </h1>
                   <h2>{menu.engName}</h2>
-                  <div className={price}>{menu.price.toLocaleString()}원</div>
+                  <div className={price}>{menu.price?.toLocaleString()}원</div>
                   <div className={like}>
                     <label className="n-icon n-icon:favorite">
                       좋아요
@@ -55,7 +55,6 @@ export default async function MenuListPage() {
                         defaultValue={menu.id}
                       />
                     </label>
-                    <span>{menu.likeCount}</span>
                   </div>
                   <div className={pay}>
                     <button className="n-icon n-icon:shopping_cart n-btn n-btn:rounded n-btn-color:main">

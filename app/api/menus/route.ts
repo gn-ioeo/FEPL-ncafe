@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { GetMenuListQueryDto } from "@/backend/application/menus/dtos/GetMenuListQueryDto";
-import { GetMenuListUsecase } from "@/backend/application/menus/usecases/GetMenuListUsecase";
+import { PrMenuRepository } from "@/backend/infrastructure/repositories/PrMenuRepository";
+import { GetMenuListUsecase } from "@/backend/application/menes/usecases/GetMenuListUsecase";
+import { GetMenuListQueryDto } from "@/backend/application/menes/dtos/GetMenuListQueryDto";
 
 // GET /api/menus?p=1&cid=2&q=검색어
 export async function GET(req: NextRequest) {
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest) {
   const cid = Number(searchParams.get("cid")) || 0;
   const q = searchParams.get("q") || "";
 
-  const usecase = new GetMenuListUsecase();
+  const usecase = new GetMenuListUsecase(new PrMenuRepository());
   const queryDto = new GetMenuListQueryDto(cid, p, q);
 
   const result = await usecase.execute(queryDto);

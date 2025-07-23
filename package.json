@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@prisma/client": "^6.12.0",
 		"@supabase/ssr": "^0.6.1",
 		"@supabase/supabase-js": "^2.49.4",
 		"ncafe-next15-app": "file:",
@@ -25,7 +26,8 @@
 		"@types/react-dom": "^19",
 		"eslint": "^9",
 		"eslint-config-next": "15.2.4",
-		"tsx": "^4.19.4",
+		"prisma": "^6.12.0",
+		"tsx": "^4.20.3",
 		"typescript": "^5"
 	}
 }
