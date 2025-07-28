@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.scss";
 import FilterForm from "./components/FilterForm";
-import { GetMenuListDto } from "@/backend/application/menes/dtos/GetMenuListDto";
+import { GetMenuListDto } from "@/backend/application/menus/dtos/GetMenuListDto";
 
 const {
   ["menus-box"]: menusBox,
@@ -17,8 +17,28 @@ const {
   pay,
 } = styles;
 
-export default async function MenuListPage() {
-  const res = await fetch("http://localhost:3000/api/menus");
+export default async function MenuListPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const categoryId = searchParams.c;
+  const url = new URL("http://localhost:3000/api/menus");
+  if (categoryId) {
+    url.searchParams.set("c", categoryId as string);
+  }
+
+  console.log("Fetching URL:", url.toString());
+
+  const res = await fetch(url.toString());
+
+  if (!res.ok) {
+    console.error("API Error:", res.status, res.statusText);
+    const text = await res.text();
+    console.error("Response body:", text);
+    throw new Error(`API request failed: ${res.status}`);
+  }
+
   const data: GetMenuListDto = await res.json();
   console.log(data);
 
