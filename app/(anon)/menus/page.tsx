@@ -22,10 +22,14 @@ export default async function MenuListPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const categoryId = searchParams.c;
+  const searchParamsResolved = await searchParams;
+  const categoryId = searchParamsResolved.c;
+  const search = searchParamsResolved.q;
   const url = new URL("http://localhost:3000/api/menus");
   if (categoryId) {
     url.searchParams.set("c", categoryId as string);
+  } else if (search) {
+    url.searchParams.set("q", search as string);
   }
 
   console.log("Fetching URL:", url.toString());
