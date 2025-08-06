@@ -38,7 +38,3 @@
 - SEO에 대한 이해와 메타데이터 처리하기
 - 🚀on premise 배포
 - Github Actions를 이용한 CI/CD 자동배포
-
-### [`뉴렉처가 운영하는 유투브`](https://www.youtube.com/@newlec1) : https://www.youtube.com/@newlec1
-
-즐거운 코딩하세요~ 
