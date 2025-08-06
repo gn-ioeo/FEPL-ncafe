@@ -141,8 +141,8 @@ export class SbMenuRepository implements MenuRepository {
 
 				// images가 존재하고 배열일 때만 변환
 				if (raw.images && Array.isArray(raw.images)) {
-					// images 배열을 MenuImage 엔티티 배열로 변환하여 menu.menuImages에 할당
-					menu.menuImages = raw.images.map((img) =>
+					// images 배열을 MenuImage 엔티티 배열로 변환하여 menu.images에 할당
+					menu.images = raw.images.map((img) =>
 						Mapper.toMenuImage(img)
 					) as MenuImage[];
 				}
@@ -206,7 +206,7 @@ export class SbMenuRepository implements MenuRepository {
 				images?: MenuImageTable[];
 			};
 			if (raw.images && Array.isArray(raw.images)) {
-				menu.menuImages = raw.images.map((img) =>
+				menu.images = raw.images.map((img) =>
 					Mapper.toMenuImage(img)
 				) as MenuImage[];
 			}

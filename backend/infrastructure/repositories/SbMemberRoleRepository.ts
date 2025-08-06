@@ -53,6 +53,28 @@ export class SbMemberRoleRepository implements MemberRoleRepository {
 		return Mapper.toMemberRole(data as unknown as MemberRoleTable);
 	}
 
+	// 멤버 ID로 멤버 역할 조회
+	async findByMemberId(memberId: string): Promise<MemberRole[]> {
+		const { data, error } = await this.supabase
+			.from("member_roles")
+			.select("*")
+			.eq("member_id", memberId);
+		if (error) throw new Error(error.message);
+		if (!data) return [];
+		return data.map((item) =>
+			Mapper.toMemberRole(item as unknown as MemberRoleTable)
+		);
+	}
+
+	// 멤버 ID로 모든 역할 삭제
+	async deleteByMemberId(memberId: string): Promise<void> {
+		const { error } = await this.supabase
+			.from("member_roles")
+			.delete()
+			.eq("member_id", memberId);
+		if (error) throw new Error(error.message);
+	}
+
 	// 멤버 역할 저장
 	async save(memberRole: MemberRole): Promise<MemberRole> {
 		const { data, error } = await this.supabase

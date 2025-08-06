@@ -1,12 +1,15 @@
 import { Menu } from "./Menu";
+import { Member } from "./Member";
 
 export class Category {
 	constructor(
 		public id: number,
 		public name: string,
 		public isPublic: boolean,
-		public createdAt: Date,
 		public order: number,
-		public menus?: Menu[] // 1:N 관계
+		public memberId: string,
+		public createdAt: Date,
+		public menus?: Menu[],
+		public member?: Member
 	) {}
 }

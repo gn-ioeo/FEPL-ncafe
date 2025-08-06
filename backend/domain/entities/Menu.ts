@@ -1,6 +1,7 @@
 import { MenuImage } from "./MenuImage";
 import { Category } from "./Category";
 import { Member } from "./Member";
+import { MenuLike } from "./MenuLike";
 
 export class Menu {
 	constructor(
@@ -8,17 +9,18 @@ export class Menu {
 		public korName?: string,
 		public engName?: string,
 		public price?: number,
-		public memberId?: string,
-		public categoryId?: number,
-		public hasIce?: boolean,
-		public createdAt?: Date,
 		public isPublic?: boolean,
-		public updatedAt?: Date | null,
-		public deletedAt?: Date | null,
+		public hasIce?: boolean,
+		public hasHot?: boolean,
 		public description?: string | null,
-		// 관계가 있는 엔티티
-		public menuImages?: MenuImage[],
-		public category?: Category, // N:1
-		public member?: Member // N:1
+		public createdAt?: Date,
+		public updatedAt?: Date,
+		public deletedAt?: Date | null,
+		public categoryId?: number,
+		public memberId?: string,
+		public images?: MenuImage[],
+		public likes?: MenuLike[],
+		public category?: Category,
+		public member?: Member
 	) {}
 }

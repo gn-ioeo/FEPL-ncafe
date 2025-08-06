@@ -17,13 +17,14 @@ export class Mapper {
 	static toMember(source: MemberTable): Member {
 		return new Member(
 			source.id,
-			source.username ?? "",
-			source.password ?? "",
 			source.email ?? "",
-			source.created_at ? new Date(source.created_at) : new Date(),
+			source.username ?? "",
+			undefined, // phone
+			source.created_at ? new Date(source.created_at) : undefined,
+			source.updated_at ? new Date(source.updated_at) : undefined,
 			source.deleted_at ? new Date(source.deleted_at) : null,
-			source.image ?? null,
-			source.updated_at ? new Date(source.updated_at) : null
+			source.password ?? undefined,
+			source.image ?? null
 		);
 	}
 
@@ -32,8 +33,9 @@ export class Mapper {
 			source.id,
 			source.name,
 			source.is_public,
-			new Date(source.created_at),
-			source.order
+			source.order,
+			"", // memberId - CategoryTable에 없으므로 빈 문자열
+			new Date(source.created_at)
 		);
 	}
 
@@ -43,11 +45,15 @@ export class Mapper {
 			source.kor_name,
 			source.eng_name,
 			source.price,
-			source.member_id,
-			source.category_id,
+			source.is_public,
 			source.has_ice,
+			undefined, // has_hot - MenuTable에 없음
+			source.description,
 			new Date(source.created_at),
-			source.is_public
+			source.updated_at ? new Date(source.updated_at) : undefined,
+			source.deleted_at ? new Date(source.deleted_at) : null,
+			source.category_id,
+			source.member_id
 		);
 	}
 

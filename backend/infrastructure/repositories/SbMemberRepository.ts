@@ -3,6 +3,7 @@ import { MemberRepository } from "../../domain/repositories/MemberRepository";
 import { Member } from "../../domain/entities/Member";
 import { Mapper } from "../mappers/Mapper";
 import { MemberTable } from "../types/database";
+import { MemberRelationsOptions } from "../../domain/repositories/options/MemberRelationsOptions";
 
 export class SbMemberRepository implements MemberRepository {
 	constructor(private supabase: SupabaseClient) {}
@@ -37,11 +38,30 @@ export class SbMemberRepository implements MemberRepository {
 	}
 
 	// 멤버 단건 조회
-	async findById(id: string): Promise<Member | null> {
+	async findByMemberId(
+		id: string,
+		relations?: MemberRelationsOptions
+	): Promise<Member | null> {
+		const selectFields = ["*"];
+		if (relations?.includeMenus) selectFields.push("menus(*)");
+		if (relations?.includeMemberRoles) selectFields.push("member_roles(*)");
+		if (relations?.includeRoles)
+			selectFields.push("member_roles:member_roles(role:role_id(name))");
+		const { data, error } = await this.supabase
+			.from("members")
+			.select(selectFields.join(", "))
+			.eq("id", id)
+			.single();
+		if (error) throw new Error(error.message);
+		if (!data) return null;
+		return Mapper.toMember(data as unknown as MemberTable);
+	}
+
+	async findByUsername(username: string): Promise<Member | null> {
 		const { data, error } = await this.supabase
 			.from("members")
 			.select("*")
-			.eq("id", id)
+			.eq("username", username)
 			.single();
 		if (error) throw new Error(error.message);
 		if (!data) return null;
@@ -58,9 +78,10 @@ export class SbMemberRepository implements MemberRepository {
 					username: member.username,
 					password: member.password,
 					email: member.email,
-					created_at: member.createdAt.toISOString(),
+					created_at:
+						member.createdAt?.toISOString() ?? new Date().toISOString(),
 					deleted_at: member.deletedAt ? member.deletedAt.toISOString() : null,
-					image: member.image,
+					image: member.profileImage,
 					updated_at: member.updatedAt ? member.updatedAt.toISOString() : null,
 				},
 			])
@@ -79,9 +100,9 @@ export class SbMemberRepository implements MemberRepository {
 				username: member.username,
 				password: member.password,
 				email: member.email,
-				created_at: member.createdAt.toISOString(),
+				created_at: member.createdAt?.toISOString() ?? new Date().toISOString(),
 				deleted_at: member.deletedAt ? member.deletedAt.toISOString() : null,
-				image: member.image,
+				image: member.profileImage,
 				updated_at: member.updatedAt ? member.updatedAt.toISOString() : null,
 			})
 			.eq("id", member.id)

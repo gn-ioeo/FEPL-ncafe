@@ -64,7 +64,7 @@ export class NGetMenuListUsecase {
 					m.updatedAt ?? null,
 					m.deletedAt ?? null,
 					m.description ?? null,
-					m.menuImages?.find((image) => image.isDefault)?.name ?? null
+					m.images?.find((image) => image.isDefault)?.name ?? null
 				)
 		);
 

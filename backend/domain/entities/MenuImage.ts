@@ -6,6 +6,6 @@ export class MenuImage {
 		public name?: string,
 		public isDefault?: boolean,
 		public menuId?: number,
-		public menu?: Menu // N:1 관계
+		public menu?: Menu
 	) {}
 }
